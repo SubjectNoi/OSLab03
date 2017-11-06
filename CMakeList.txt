@@ -3,6 +3,5 @@ project(AUnixShellX)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES mem.c)
-set(HEADER_FILES mem.h)
+set(SOURCE_FILES mem.c mem.h)
 add_executable(AUnixShellX ${SOURCE_FILES})
