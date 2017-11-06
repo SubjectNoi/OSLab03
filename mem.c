@@ -1,3 +1,4 @@
+
 //
 // Created by 10152130243 and 10152130247 on 11/3/17.
 //            OSLab03: Malloc And Free
@@ -112,12 +113,20 @@ void* mem_alloc(int size, int style) {
             break;
         case M_BESTFIT:
             while (cur_add != end_add) {
-                //todo: algorithm of best fit
+                cur_add_header = (Header*)cur_add;
+                if (cur_add_header -> magic == 0 && cur_add_header -> size >= size && (!add_return || cur_add_header -> size < ((Header*)add_return) -> size)) {
+                    add_return = cur_add;
+                }
+                cur_add += ((cur_add_header -> size) + sizeof(Header));
             }
             break;
         case M_WORSTFIT:
             while (cur_add != end_add) {
-                //todo: algorithm of worst fit
+                cur_add_header = (Header*)cur_add;
+                if (cur_add_header -> magic == 0 && cur_add_header -> size >= size && (!add_return || cur_add_header -> size > ((Header*)add_return) -> size)) {
+                    add_return = cur_add;
+                }
+                cur_add += ((cur_add_header -> size) + sizeof(Header));
             }
             break;
 
@@ -163,7 +172,7 @@ void mem_dump() {
         cur_add += (sizeof(Header) + ((Header*)cur_add) -> size);
     }
     printf("end_add = 0x%x.\n", end_add);
-    printf("-----------------------------------------------------------\n");
+    printf("-----------------------------------------------------------------------\n");
 }
 
 /*
@@ -173,16 +182,16 @@ int main(int argc, int *argv[]) {
     mem_init(sizeof(int) * 2048);
     void *tmp  = mem_alloc(sizeof(int) * 256, M_FIRSTFIT);
     void *tmp1 = mem_alloc(sizeof(int) * 128, M_FIRSTFIT);
-    void *tmp2 = mem_alloc(sizeof(int) * 384, M_FIRSTFIT);
-    void *tmp3 = mem_alloc(sizeof(int) * 64 , M_FIRSTFIT);
-    void *tmp4 = mem_alloc(sizeof(int) * 768, M_FIRSTFIT);
+    void *tmp2 = mem_alloc(sizeof(int) * 384, M_BESTFIT);
+    void *tmp3 = mem_alloc(sizeof(int) * 64 , M_BESTFIT);
+    void *tmp4 = mem_alloc(sizeof(int) * 768, M_WORSTFIT);
     mem_dump();
     mem_free(tmp1);
     mem_free(tmp2);
     mem_dump();
     mem_free(tmp3);
     mem_dump();
-    void *tmp5 = mem_alloc(sizeof(int) * 500, M_FIRSTFIT);
+    void *tmp5 = mem_alloc(sizeof(int) * 500, M_WORSTFIT);
     mem_dump();
     return 0;
 }
