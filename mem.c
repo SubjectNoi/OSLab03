@@ -1,4 +1,3 @@
-
 //
 // Created by 10152130243 and 10152130247 on 11/3/17.
 //            OSLab03: Malloc And Free
@@ -165,33 +164,12 @@ int mem_free(void* ptr) {
  *  Print the snap-shot of current RAM pool.
  */
 void mem_dump() {
-    printf("start_add = 0x%x.\n", start_add);
+    printf("start_add = 0x%x.\n", (unsigned int)start_add);
     void *cur_add = start_add;
     while (cur_add != end_add) {
-            printf("Space from 0x%x to 0x%x, magic = %8d, size = %d.\n", cur_add + sizeof(Header), cur_add + sizeof(Header) + ((Header*)cur_add) -> size, ((Header*)cur_add) -> magic, ((Header*)cur_add) -> size);
+        printf("Space from 0x%x to 0x%x, magic = %8d, size = %d.\n", (unsigned int)(cur_add + sizeof(Header)), (unsigned int)(cur_add + sizeof(Header) + ((Header*)cur_add) -> size), ((Header*)cur_add) -> magic, ((Header*)cur_add) -> size);
         cur_add += (sizeof(Header) + ((Header*)cur_add) -> size);
     }
-    printf("end_add = 0x%x.\n", end_add);
+    printf("end_add = 0x%x.\n", (unsigned int)end_add);
     printf("-----------------------------------------------------------------------\n");
-}
-
-/*
- *  ==========================TEST==============================
- */
-int main(int argc, int *argv[]) {
-    mem_init(sizeof(int) * 2048);
-    void *tmp  = mem_alloc(sizeof(int) * 256, M_FIRSTFIT);
-    void *tmp1 = mem_alloc(sizeof(int) * 128, M_FIRSTFIT);
-    void *tmp2 = mem_alloc(sizeof(int) * 384, M_BESTFIT);
-    void *tmp3 = mem_alloc(sizeof(int) * 64 , M_BESTFIT);
-    void *tmp4 = mem_alloc(sizeof(int) * 768, M_WORSTFIT);
-    mem_dump();
-    mem_free(tmp1);
-    mem_free(tmp2);
-    mem_dump();
-    mem_free(tmp3);
-    mem_dump();
-    void *tmp5 = mem_alloc(sizeof(int) * 500, M_WORSTFIT);
-    mem_dump();
-    return 0;
 }
