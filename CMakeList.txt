@@ -3,5 +3,5 @@ project(MallocAndFree)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES test.c mem.c mem.h)
+set(SOURCE_FILES mem.c mem.h mymain.c)
 add_executable(MallocAndFree ${SOURCE_FILES})
